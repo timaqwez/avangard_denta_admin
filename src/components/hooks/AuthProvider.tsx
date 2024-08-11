@@ -20,7 +20,7 @@ export interface Account {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-const ApiUrl: string = import.meta.env.VITE_API_URL
+const API_URL: string = import.meta.env.VITE_API_URL
 
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [token, setToken] = useState<string | null>(Cookies.get('token') || null);
@@ -37,7 +37,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
           navigate('/promotions');
       }
       Cookies.set('token', token);
-      const response = await axios.get(ApiUrl + '/admin/accounts/get', {params: {token: token} } );
+      const response = await axios.get(API_URL + '/admin/accounts/get', {params: {token: token} } );
       if (response.data.state === 'successful') {
         localStorage.setItem('account', JSON.stringify(response.data.account))
       } else {

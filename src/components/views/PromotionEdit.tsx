@@ -18,7 +18,7 @@ import { checkPermissions } from '../functions/checkPermissions';
 import { LeadsDataGrid } from '../tables/LeadsDataGrid.tsx';
 
 
-const ApiUrl: string = import.meta.env.VITE_API_URL;
+const API_URL: string = import.meta.env.VITE_API_URL;
 
 
 export const PromotionEdit: React.FC = () => {
@@ -60,7 +60,7 @@ export const PromotionEdit: React.FC = () => {
       let state = location.state
       if (!state?.object) {
         try {
-          const response = await axios.get(`${ApiUrl}${operations.get?.path}`, { params: { token: token, id: id } });
+          const response = await axios.get(`${API_URL}${operations.get?.path}`, { params: { token: token, id: id } });
           if (response.data.state === 'successful') {
             setItem(response.data[operations.get?.responseKey || 'data']);
           } else {

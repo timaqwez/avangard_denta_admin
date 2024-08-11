@@ -20,4 +20,3 @@ export function extractValueByKey(obj: any, keyStr: string): any {
         value: obj,
     }
 };
-

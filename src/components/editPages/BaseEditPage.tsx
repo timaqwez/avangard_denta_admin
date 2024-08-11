@@ -10,7 +10,7 @@ import { EditField } from '../EditField';
 import { CardTable } from '../tables/CardTable';
 import { Column } from '../../config/columns/base';
 
-const ApiUrl: string = import.meta.env.VITE_API_URL;
+const API_URL: string = import.meta.env.VITE_API_URL;
 
 interface EditPageProps {
   item: any,
@@ -61,7 +61,7 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
     const token = Cookies.get('token');
     const newErrors: { [key: string]: string } = {};
     try {
-      const response = await axios.post(`${ApiUrl}${operations.update?.path}`, { token, ...item });
+      const response = await axios.post(`${API_URL}${operations.update?.path}`, { token, ...item });
       if (response.data.state != 'successful') {
         if (response.data.error.code === 1003) {
           let error = operations.update?.errors?.find((error) => error.code === 1003)
@@ -87,7 +87,7 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
     const token = Cookies.get('token');
     try {
         setLoading('delete')
-        await axios.post(ApiUrl + operations.submodel?.delete?.path, { token, ...{...item} });
+        await axios.post(API_URL + operations.submodel?.delete?.path, { token, ...{...item} });
         navigate(0)
     } catch (error) {
       console.error('An error occurred:', error);

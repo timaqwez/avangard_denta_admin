@@ -23,7 +23,7 @@ const columns: GridColDef[] = [
     {field: 'email', headerName: 'Эл.почта', width: 200, sortable: false},   
 ]
 
-const ApiUrl: string = import.meta.env.VITE_API_URL
+const API_URL: string = import.meta.env.VITE_API_URL
 const operations: Operations = partnersOperations
 
 interface PartnersDataGridProps {
@@ -48,7 +48,7 @@ export function PartnersDataGrid(props: PartnersDataGridProps) {
         async function fetchAvailablePartners() {
             const token = Cookies.get('token');
             try {
-                const response = await axios.get(ApiUrl + '/admin/clients/partners/list/get', {params: {token: token} })
+                const response = await axios.get(API_URL + '/admin/clients/partners/list/get', {params: {token: token} })
                 let partners = response.data.partners
                 setAvailablePartners(partners)
             } catch (error) {
@@ -81,7 +81,7 @@ export function PartnersDataGrid(props: PartnersDataGridProps) {
             
             for (const partner of selectedPartners) {
                 try {
-                    const response = await axios.post(`${ApiUrl}${operations.create?.path}`, { token, ...{ ...item, client_id: partner.value } });
+                    const response = await axios.post(`${API_URL}${operations.create?.path}`, { token, ...{ ...item, client_id: partner.value } });
                     if (response.data.state !== 'successful') {
                         if (response.data.error.code === 1003) {
                             let error = operations.create?.errors?.find((error) => error.code === 1003);
@@ -122,7 +122,7 @@ export function PartnersDataGrid(props: PartnersDataGridProps) {
         for (const row_id of selectedRow) {
             try {
                 console.log('delete', row_id)
-                await axios.post(ApiUrl + operations.delete?.path, { token, id: row_id });
+                await axios.post(API_URL + operations.delete?.path, { token, id: row_id });
                 setData((prevData) => prevData.filter((i) => i.id !== row_id));
                 partners = partners.filter((i) => i.id !== row_id)
                 setDisplayData((prevDisplayData) => prevDisplayData.filter((i) => i.id !== row_id));

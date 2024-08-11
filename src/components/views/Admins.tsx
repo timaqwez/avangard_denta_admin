@@ -14,7 +14,7 @@ import { Search } from '../Search.tsx';
 import { checkPermissions } from '../functions/checkPermissions.ts';
 
 
-const ApiUrl: string = import.meta.env.VITE_API_URL
+const API_URL: string = import.meta.env.VITE_API_URL
 
 
 export const Admins: React.FC = () => {
@@ -33,7 +33,7 @@ export const Admins: React.FC = () => {
         const token = Cookies.get('token');
         try {
             if (operations.list) {
-            const response = await axios.get(ApiUrl + operations.list.path, { params: { token }});
+            const response = await axios.get(API_URL + operations.list.path, { params: { token }});
             if (response.data.state === 'successful') {
                 let dataArray = response.data[operations.list.responseKey || 'data'].sort(
                 (a: any, b: any) => b.id - a.id
@@ -48,7 +48,7 @@ export const Admins: React.FC = () => {
             console.error('An error occurred:', error);
         }
         try {
-          const response = await axios.get(ApiUrl + '/admin/roles/list/get', { params: { token }});
+          const response = await axios.get(API_URL + '/admin/roles/list/get', { params: { token }});
             if (response.data.state === 'successful') {
                 let dataArray = response.data.roles.sort(
                 (a: any, b: any) => b.id - a.id
@@ -81,7 +81,7 @@ export const Admins: React.FC = () => {
     const token = Cookies.get('token');
     try {
         setLoading('delete')
-        await axios.post(ApiUrl + operations.delete?.path, { token, ...item });
+        await axios.post(API_URL + operations.delete?.path, { token, ...item });
         setData(data.filter((i) => i.id !== item.id));
         setDisplayData(data.filter((i) => i.id !== item.id))
         setLoading('none') 

@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import { CreateForm, CreateFormProps } from '../CreateForm';
-import { IoMdAddCircle } from 'react-icons/io';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useState } from 'react';
 import { Box } from '@mui/material';
 
@@ -47,7 +47,7 @@ export const CreateButton: React.FC<CreateFormProps> = ( props: CreateFormProps 
         }}
       >
             <Box sx={{display: {xs: 'flex', md: 'none'} }}>
-              <IoMdAddCircle style={{width: '20px', height: '20px'}}/>
+              <AddCircleIcon style={{width: '20px', height: '20px'}}/>
             </Box>
             <Box sx={{display: {md: 'flex', xs: 'none'}, fontSize: '15px' }}>Создать</Box>
         </Button>

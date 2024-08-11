@@ -13,7 +13,7 @@ import { Box, Divider } from '@mui/material';
 import { checkPermissions } from '../functions/checkPermissions';
 import { getRoles } from '../functions/getRoles';
 
-const ApiUrl: string = import.meta.env.VITE_API_URL;
+const API_URL: string = import.meta.env.VITE_API_URL;
 
 
 export const AdminEdit: React.FC = () => {
@@ -32,7 +32,7 @@ export const AdminEdit: React.FC = () => {
       let state = location.state
       if (!state) {
         try {
-          const response = await axios.get(`${ApiUrl}${operations.get?.path}`, { params: { token: token, id: id } });
+          const response = await axios.get(`${API_URL}${operations.get?.path}`, { params: { token: token, id: id } });
           if (response.data.state === 'successful') {
             setItem(response.data[operations.get?.responseKey || 'data']);
           } else {
@@ -48,7 +48,7 @@ export const AdminEdit: React.FC = () => {
         window.history.replaceState({}, '')
       }
       try {
-        const response = await axios.get(ApiUrl + '/admin/roles/list/get', { params: { token }});
+        const response = await axios.get(API_URL + '/admin/roles/list/get', { params: { token }});
           if (response.data.state === 'successful') {
               let dataArray = response.data.roles.sort(
               (a: any, b: any) => b.id - a.id

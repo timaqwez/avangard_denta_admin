@@ -15,12 +15,11 @@ const columns: GridColDef[] = [
     {field: 'is_processed', headerName: 'Обработан', width: 100, sortable: false, valueFormatter: (value) => {return value ? 'Да' : 'Нет'}}
 ]
 
-const ApiUrl: string = import.meta.env.VITE_API_URL
+const API_URL: string = import.meta.env.VITE_API_URL
 
 interface PartnersDataGridProps {
     tableHeight: any,
     initialRows: any[],
-    // setLeads: (partners: any[]) => void,
     promotion_id: number,  
 }
 
@@ -41,7 +40,7 @@ export function LeadsDataGrid(props: PartnersDataGridProps) {
         setLoading('delete');
         for (const row_id of selectedRow) {
             try {
-                await axios.post(ApiUrl + '/admin/leads/update', { token, id: row_id, is_processed: true });
+                await axios.post(API_URL + '/admin/leads/update', { token, id: row_id, is_processed: true });
             } catch (error) {
                 console.error('An error occurred:', error);
             }

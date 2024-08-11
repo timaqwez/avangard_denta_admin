@@ -27,3 +27,4 @@ export const validateFields = (fields: OperationField[], item: any, setErrors: a
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  

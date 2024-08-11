@@ -21,5 +21,4 @@ export const SearchButton: React.FC<SearchButtonProps> = ({searchHandle}) => {
             Поиск
         </Button>
     )
-    
 }

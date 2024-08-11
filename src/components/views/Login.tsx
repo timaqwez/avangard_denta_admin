@@ -2,57 +2,37 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import { Container, TextField, Typography, Box, InputLabel, FormControl, OutlinedInput, InputAdornment, IconButton, FormHelperText } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 import { AuthProvider } from '../hooks/AuthProvider';
 import { BaseIcon } from '../icons/BaseIcon';
 import { LoadingButton } from '@mui/lab';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { sessionsOperations } from '../../config/operations/sessions';
+import { getInputEntity } from '../Inputs';
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [isErrorUsername, setIsErrorUsername] = useState(false);
-  const [errorTextUsername, setErrorTextUsername] = useState('');
-  const [isErrorPassword, setIsErrorPassword] = useState(false);
-  const [errorTextPassword, setErrorTextPassword] = useState('');
+  const [form, setForm] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState('none');
   const navigate = useNavigate();
+  const operations = sessionsOperations;
 
-  const handleClickShowPassword = () => ((setShowPassword(!showPassword)));
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: '' });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     setLoading('submit')
-    setIsErrorUsername(false)
-    setErrorTextUsername('')
-    setIsErrorPassword(false)
-    setErrorTextPassword('')
+    setErrors({})
     try {
-      if (username.length < 6) {
-        setIsErrorUsername(true)
-        setErrorTextUsername("Имя пользователя должно содержать не менее 6 символов")
-        setLoading('none')
-        return
-      }
-      if (password.length < 6) {
-        setIsErrorPassword(true)
-        setErrorTextPassword("Пароль должен содержать не менее 6 символов")
-        setLoading('none')
-        return
-      }
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/sessions/create`, {
-        username,
-        password,
-      });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}${operations.create?.path}`, {...form});
       if (response.data.state === 'successful') {
         Cookies.set('token', response.data.session.token);
-        const ApiUrl = import.meta.env.VITE_API_URL
-        const get_account_response = await axios.get(ApiUrl + '/admin/accounts/get', {params: {token: Cookies.get('token')} } );
+        const API_URL = import.meta.env.VITE_API_URL
+        let get_account_response = await axios.get(API_URL + '/admin/accounts/get', {params: {token: Cookies.get('token')} } );
         if (get_account_response.data.state === 'successful') {
           localStorage.setItem('account', JSON.stringify(get_account_response.data.account))
         }
@@ -60,12 +40,16 @@ const Login: React.FC = () => {
         window.location.reload();
       } else {
         if (response.data.error?.code == 1000) {
-          setIsErrorUsername(true)
-          setErrorTextUsername(`Администратор с именем пользователя ${username} не существует`)
+          let error = operations.create?.errors?.find((error) => error.code === 1000);
+          if (error) {
+            setErrors({...errors, username: error.message});
+          }
         }
         else if (response.data.error?.code == 2000) {
-          setIsErrorPassword(true)
-          setErrorTextPassword(`Неверный пароль`)
+          let error = operations.create?.errors?.find((error) => error.code === 2000);
+          if (error) {
+            setErrors({...errors, username: error.message});
+          }
         }
         setLoading('none')
       }
@@ -96,53 +80,17 @@ const Login: React.FC = () => {
         <Typography component="h1" variant="h5">
           Вход в аккаунт
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Логин"
-            name="username"
-            autoComplete="username"
-            error={isErrorUsername}
-            helperText={errorTextUsername}
-            autoFocus
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <FormControl sx={{ width: '100%' }} variant="outlined" style={{marginTop: '10px'}}>
-          <InputLabel htmlFor="outlined" error={isErrorPassword}>Пароль *</InputLabel>
-          <OutlinedInput
-            id="outlined"
-            autoComplete="disabled"
-            name="password"
-            onChange={(e) => setPassword(e.target.value)}
-            fullWidth
-            required
-            type={showPassword ? 'text' : 'password'}
-            error={isErrorPassword}
-            margin='none'
-            endAdornment={
-              <>
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                  sx={{
-                    color: 'primary.main'
-                  }}
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-              </>
-            }
-            label="Пароль"
-          />
-          <FormHelperText error={isErrorPassword} >{errorTextPassword}</FormHelperText>
-        </FormControl>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2, gap: '10px', display: 'flex', flexDirection: 'column' }}>
+          {operations.create?.fields.map((field) => (getInputEntity(
+            {...{
+              item: form, 
+              field: field, 
+              handleTextFieldChange: handleTextFieldChange, 
+              error: errors[field.dataName], 
+              showPassword: showPassword,
+              setShowPassword: setShowPassword,
+            }}
+          )))}
           <LoadingButton
             type="submit"
             fullWidth
@@ -150,18 +98,10 @@ const Login: React.FC = () => {
             color="primary"
             loading={loading == 'submit'}
             disableElevation
-            sx={{ mt: 3, mb: 2 }}
+            sx={{mt: 1}}
           >
             Войти
           </LoadingButton>
-          {/* <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Typography variant="body2">
-              Нет аккаунта?{' '}
-              <Link href="/register" variant="body2">
-                Зарегистрироваться
-              </Link>
-            </Typography>
-          </Box> */}
         </Box>
       </Box>
     </Container>

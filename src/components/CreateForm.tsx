@@ -8,7 +8,7 @@ import { getInputEntity } from './Inputs';
 import { LoadingButton } from '@mui/lab';
 import { validateFields } from './functions/validateFields';
 
-const ApiUrl: string = import.meta.env.VITE_API_URL;
+const API_URL: string = import.meta.env.VITE_API_URL;
 
 export interface CreateFormProps {
     operation: Operation,
@@ -42,7 +42,6 @@ export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData,
 
     fetchValues(); 
   }, []);
-
 
   const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItem({ ...item, [e.target.name]: e.target.value });
@@ -104,7 +103,6 @@ export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData,
     setErrors({ ...errors, [dropdownData.dataName]: '' });
   }
 
-
   const handleSave = async () => {
     if (!validateFields(operation.fields, item, setErrors)) {
       return
@@ -116,7 +114,7 @@ export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData,
       await customHandleSave(item, token, setErrors)
     } else {
       try {
-        const response = await axios.post(`${ApiUrl}${operation.path}`, { token, ...item });
+        const response = await axios.post(`${API_URL}${operation.path}`, { token, ...item });
         if (response.data.state === 'successful') {   
           navigate(0);
         } else {

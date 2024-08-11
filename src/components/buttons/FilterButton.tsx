@@ -1,5 +1,5 @@
 import { IconButton } from "@mui/material";
-import { FaFilter } from "react-icons/fa";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 interface FilterButtonProps {
     handle: any,
@@ -9,7 +9,7 @@ interface FilterButtonProps {
 export const FilterButton: React.FC<FilterButtonProps> = ({handle}) => {
     return (
         <IconButton size="small" style={{ height: '48px', width: '48px', color: 'black', margin: '5px'}} onClick={handle} disableRipple={true}>
-            <FaFilter style={{ height: '50px', width: '50px' }}/>
+            <FilterAltIcon style={{ height: '50px', width: '50px' }}/>
         </IconButton>
     )
     
