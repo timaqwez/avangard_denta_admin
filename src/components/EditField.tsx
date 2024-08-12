@@ -1,4 +1,4 @@
-import { getInputEntity, getInputEntityProps } from "./Inputs";
+import { getInputEntity, getInputEntityProps } from "./inputs/Inputs";
 import { Avatar, Box, Button, Card } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import EditIcon from '@mui/icons-material/Edit';

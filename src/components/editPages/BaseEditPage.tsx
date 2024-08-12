@@ -38,10 +38,6 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
     setItem({ ...item, [e.target.name]: e.target.checked });
   };
 
-  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem({ ...item, ['color']: e });
-  };
-
   const handleDropdownChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       setItem({ ...item, [e.target.name]: e.target.value });
@@ -105,7 +101,6 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
               field: field,
               handleTextFieldChange: handleTextFieldChange,
               handleCheckboxChange: handleCheckboxChange,
-              handleColorChange: handleColorChange,
               handleDropdownChange: handleDropdownChange,
               dropdownData: dropdownData,
               error: errors[field.dataName],

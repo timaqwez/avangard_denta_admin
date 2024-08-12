@@ -4,7 +4,6 @@ export enum ColumnType {
   BOOLEAN = 'boolean',
   REACT_NODE = 'react_node',
   OBJECT = 'object',
-  COLOR = 'color',
   DROPDOWN = 'dropdown',
   SEARCH_DROPDOWN = 'search_dropdown',
   ARRAY = 'array'

@@ -46,9 +46,6 @@ export const ActionsButton: React.FC<ActionsButtonProps> = ( {object, handlers} 
     }
 
     function getActionsMenuItem(object: any, handler: Handler) {
-        if (handler.id === 'add') {
-            return null;
-        }
         return (
             <MenuItem sx={{
                 width: '100%', 
@@ -109,7 +106,7 @@ export const ActionsButton: React.FC<ActionsButtonProps> = ( {object, handlers} 
                     {handlers.map((handler, index) => (
                         <React.Fragment key={handler.id}>
                             {index < handlers.length && handler.id === 'delete' && handlers[index-1] && <Divider sx={{color: '#000'}} variant='middle'/>}
-                            {getActionsMenuItem(object, handler)}
+                            {handler.id != 'add' && getActionsMenuItem(object, handler)}
                         </React.Fragment>
                     ))}
                 </Box>

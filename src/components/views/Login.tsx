@@ -7,7 +7,7 @@ import { AuthProvider } from '../hooks/AuthProvider';
 import { BaseIcon } from '../icons/BaseIcon';
 import { LoadingButton } from '@mui/lab';
 import { sessionsOperations } from '../../config/operations/sessions';
-import { getInputEntity } from '../Inputs';
+import { getInputEntity } from '../inputs/Inputs';
 
 const Login: React.FC = () => {
   const [form, setForm] = useState<{ [key: string]: string }>({});

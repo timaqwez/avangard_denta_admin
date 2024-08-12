@@ -4,7 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { OperationField, Operation } from '../config/operations/base';
 import { Loading } from './Loading';
-import { getInputEntity } from './Inputs';
+import { getInputEntity } from './inputs/Inputs';
 import { LoadingButton } from '@mui/lab';
 import { validateFields } from './functions/validateFields';
 
@@ -50,10 +50,6 @@ export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData,
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItem({ ...item, [e.target.name]: e.target.checked });
-  };
-
-  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem({ ...item, ['color']: e });
   };
 
   const handleDropdownChange = (e: React.ChangeEvent<HTMLInputElement>) => {  
@@ -149,7 +145,6 @@ export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData,
                     field: field, 
                     handleTextFieldChange: handleTextFieldChange, 
                     handleCheckboxChange: handleCheckboxChange, 
-                    handleColorChange: handleColorChange, 
                     handleDropdownChange: handleDropdownChange,
                     handleSearchDropdownChange: handleSearchDropdownChange,
                     dropdownData: dropdownData,
