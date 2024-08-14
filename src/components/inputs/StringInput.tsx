@@ -3,12 +3,17 @@ import { getInputEntityProps } from "./Inputs";
 import { ColumnType } from "../../config/columns/base";
 
 function StringInput(props: getInputEntityProps) {
+    const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      props.setItem({ ...props.item, [e.target.name]: e.target.value });
+      props.setErrors({ ...props.errors, [e.target.name]: '' });
+    };
+
     return <TextField
         key={props.field.dataName}
         name={props.field.dataName}
         label={props.field.label}
         value={props.item[props.field.dataName]}
-        onChange={props.handleTextFieldChange}
+        onChange={handleTextFieldChange}
         fullWidth
         required={props.field.required}
         error={Boolean(props.error)}

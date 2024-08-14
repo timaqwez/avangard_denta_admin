@@ -17,11 +17,10 @@ export interface DropdownData {
 
 export interface getInputEntityProps {
     item: any, 
+    setItem: any,
+    errors: { [key: string]: string },
+    setErrors: any,
     field: OperationField, 
-    handleTextFieldChange?: any, 
-    handleCheckboxChange?: any,
-    handleDropdownChange?: any,
-    handleSearchDropdownChange?: any,
     dropdownData?: any,
     error?: string,
     showPassword?: boolean,

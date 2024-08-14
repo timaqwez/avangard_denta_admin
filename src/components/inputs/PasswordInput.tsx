@@ -3,6 +3,11 @@ import { getInputEntityProps } from "./Inputs";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function PasswordInput(props: getInputEntityProps) {
+    const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      props.setItem({ ...props.item, [e.target.name]: e.target.value });
+      props.setErrors({ ...props.errors, [e.target.name]: '' });
+    };
+
     const handleClickShowPassword = () => ((props.setShowPassword(!props.showPassword)));
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -15,7 +20,7 @@ function PasswordInput(props: getInputEntityProps) {
         key={props.field.dataName}
         name={props.field.dataName}
         value={props.item[props.field.dataName] || null}
-        onChange={props.handleTextFieldChange}
+        onChange={handleTextFieldChange}
         fullWidth
         required={props.field.required}
         type={props.showPassword ? 'text' : 'password'}

@@ -29,25 +29,6 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
   const [isEditing, setIsEditing] = useState<string>('none');
   const navigate = useNavigate();
 
-  const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem({ ...item, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: '' });
-  };
-
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem({ ...item, [e.target.name]: e.target.checked });
-  };
-
-  const handleDropdownChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value) {
-      setItem({ ...item, [e.target.name]: e.target.value });
-    }
-    else {
-      setItem({ ...item, [e.target.name]: e.target.textContent });
-    }
-    setErrors({ ...errors, [e.target.name]: '' });
-  }
-
   const handleSave = async (dataName: string) => {
     console.log(item)
     if (operations.update){
@@ -98,10 +79,10 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
           <EditField
             props={{
               item: item,
+              setItem: setItem,
+              errors: errors,
+              setErrors: setErrors,
               field: field,
-              handleTextFieldChange: handleTextFieldChange,
-              handleCheckboxChange: handleCheckboxChange,
-              handleDropdownChange: handleDropdownChange,
               dropdownData: dropdownData,
               error: errors[field.dataName],
               showPassword: showPassword,

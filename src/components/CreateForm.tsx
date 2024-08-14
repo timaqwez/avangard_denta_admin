@@ -43,61 +43,6 @@ export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData,
     fetchValues(); 
   }, []);
 
-  const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem({ ...item, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: '' });
-  };
-
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setItem({ ...item, [e.target.name]: e.target.checked });
-  };
-
-  const handleDropdownChange = (e: React.ChangeEvent<HTMLInputElement>) => {  
-    if (e.target.value) {
-      setItem({ ...item, [e.target.name]: e.target.value });
-    }
-    else {
-      setItem({ ...item, [e.target.name]: e.target.textContent });
-    }
-    setErrors({ ...errors, [e.target.name]: '' });
-  }
-
-  const handleSearchDropdownChange = (e: React.ChangeEvent<HTMLInputElement>, dropdownData: any, multiple: boolean | undefined) => {
-    if (!multiple) {
-      let value = e.target.value ? e.target.value : e.target.textContent
-      const dataObject = dropdownData.data.filter((object: {displayName: string, value: any}) => object.displayName == value)
-      if (dataObject.length != 0) {
-        setItem({ ...item, [dropdownData.dataName]: dataObject[0].value });
-      } else {
-        setItem({ ...item, [dropdownData.dataName]: null });
-      }
-    } else {
-      let value = e.target.value ? e.target.value : e.target.textContent
-      let itemSlot = item[dropdownData.dataName]
-      if (value) {
-        if (itemSlot) {
-          let includedObject = itemSlot.filter((object: {displayName: string, value: any}) => object.displayName == value)
-          if (includedObject.length == 0) {
-            const dataObject = dropdownData.data.filter((object: {displayName: string, value: any}) => object.displayName == value)
-            itemSlot.push(dataObject[0])
-            setItem({ ...item, [dropdownData.dataName]: itemSlot });
-          } else {
-            itemSlot = itemSlot.filter((object: {displayName: string, value: any}) => object.displayName != value)
-            setItem({ ...item, [dropdownData.dataName]: itemSlot });
-          }
-        } else {
-          const dataObject = dropdownData.data.filter((object: {displayName: string, value: any}) => object.displayName == value)
-          itemSlot = [].concat(dataObject)
-          setItem({ ...item, [dropdownData.dataName]: itemSlot });
-        }
-      } else {
-        const dataObject = dropdownData.data.filter((object: {displayName: string, value: any}) => object.displayName == e.currentTarget.parentElement?.innerText)
-        itemSlot.splice(itemSlot.indexOf(dataObject), 1)
-        setItem({ ...item, [dropdownData.dataName]: itemSlot });
-      }
-    }
-    setErrors({ ...errors, [dropdownData.dataName]: '' });
-  }
 
   const handleSave = async () => {
     if (!validateFields(operation.fields, item, setErrors)) {
@@ -142,11 +87,10 @@ export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData,
                 getInputEntity(
                   {...{
                     item: item, 
+                    setItem: setItem,
+                    errors: errors,
+                    setErrors: setErrors,
                     field: field, 
-                    handleTextFieldChange: handleTextFieldChange, 
-                    handleCheckboxChange: handleCheckboxChange, 
-                    handleDropdownChange: handleDropdownChange,
-                    handleSearchDropdownChange: handleSearchDropdownChange,
                     dropdownData: dropdownData,
                     error: errors[field.dataName], 
                     showPassword: showPassword,

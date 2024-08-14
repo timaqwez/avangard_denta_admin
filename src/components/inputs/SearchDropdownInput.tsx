@@ -3,6 +3,43 @@ import { Autocomplete, TextField } from "@mui/material";
 import { getInputEntityProps } from "./Inputs";
 
 function SearchDropdownInput(props: getInputEntityProps) {
+    const handleSearchDropdownChange = (e: any, dropdownData: any, multiple: boolean | undefined) => {
+        if (!multiple) {
+          let value = e.target.value ? e.target.value : e.target.textContent
+          const dataObject = dropdownData.data.filter((object: {displayName: string, value: any}) => object.displayName == value)
+          if (dataObject.length != 0) {
+            props.setItem({ ...props.item, [dropdownData.dataName]: dataObject[0].value });
+          } else {
+            props.setItem({ ...props.item, [dropdownData.dataName]: null });
+          }
+        } else {
+          let value = e.target.value ? e.target.value : e.target.textContent
+          let itemSlot = props.item[dropdownData.dataName]
+          if (value) {
+            if (itemSlot) {
+              let includedObject = itemSlot.filter((object: {displayName: string, value: any}) => object.displayName == value)
+              if (includedObject.length == 0) {
+                const dataObject = dropdownData.data.filter((object: {displayName: string, value: any}) => object.displayName == value)
+                itemSlot.push(dataObject[0])
+                props.setItem({ ...props.item, [dropdownData.dataName]: itemSlot });
+              } else {
+                itemSlot = itemSlot.filter((object: {displayName: string, value: any}) => object.displayName != value)
+                props.setItem({ ...props.item, [dropdownData.dataName]: itemSlot });
+              }
+            } else {
+              const dataObject = dropdownData.data.filter((object: {displayName: string, value: any}) => object.displayName == value)
+              itemSlot = [].concat(dataObject)
+              props.setItem({ ...props.item, [dropdownData.dataName]: itemSlot });
+            }
+          } else {
+            const dataObject = dropdownData.data.filter((object: {displayName: string, value: any}) => object.displayName == e.currentTarget.parentElement?.innerText)
+            itemSlot.splice(itemSlot.indexOf(dataObject), 1)
+            props.setItem({ ...props.item, [dropdownData.dataName]: itemSlot });
+          }
+        }
+        props.setErrors({ ...props.errors, [dropdownData.dataName]: '' });
+      }
+
     if (props.dropdownData){
         let thisDropdownData = props.dropdownData[props.field.dataName]
         return <Autocomplete
@@ -15,7 +52,7 @@ function SearchDropdownInput(props: getInputEntityProps) {
                     {...params} 
                     label={thisDropdownData.label || 'Ошибка'} 
                     onChange={(value) => {
-                        props.handleSearchDropdownChange(value, thisDropdownData, props.field.multiple)
+                        handleSearchDropdownChange(value, thisDropdownData, props.field.multiple)
                     }}
                 />
             }
@@ -23,7 +60,7 @@ function SearchDropdownInput(props: getInputEntityProps) {
             disableCloseOnSelect 
             getOptionLabel={(option: any) => option.displayName}
             onChange={(value) => {
-              props.handleSearchDropdownChange(value, thisDropdownData, props.field.multiple)
+              handleSearchDropdownChange(value, thisDropdownData, props.field.multiple)
             }}
         />
     }
