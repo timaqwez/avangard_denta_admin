@@ -33,7 +33,7 @@ export function getInputEntity(
   if(props.field.noDisplay) {
     return
   }
-  if (props.field.type == ColumnType.STRING || props.field.type == ColumnType.NUMBER) {
+  if (props.field.type == ColumnType.STRING || props.field.type == ColumnType.NUMBER || props.field.type == ColumnType.PHONE) {
     if (props.field.dataName == 'password') {
       return <PasswordInput {...props} />
     }

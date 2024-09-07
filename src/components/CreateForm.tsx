@@ -7,6 +7,7 @@ import { Loading } from './Loading';
 import { getInputEntity } from './inputs/Inputs';
 import { LoadingButton } from '@mui/lab';
 import { validateFields } from './functions/validateFields';
+import { InformationButton } from './buttons/InformationButton';
 
 const API_URL: string = import.meta.env.VITE_API_URL;
 
@@ -18,7 +19,7 @@ export interface CreateFormProps {
     customHandleSave?: any,
 }
 
-export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData, fieldsValues, parentObject, customHandleSave }) => {
+export const  CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData, fieldsValues, parentObject, customHandleSave }) => {
   const [item, setItem] = useState<any>({});
   const [loading, setLoading] = useState('none');
   const [showPassword, setShowPassword] = useState(false);
@@ -64,6 +65,12 @@ export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData,
             if (error){
               newErrors[error.field] = error.message;
             }
+          } else if (response.data.error.code === 1008) {
+            let error = operation.errors?.find((error) => (error.code === 1008 && error.field === response.data.error.kwargs.variable))
+            if (error){
+              newErrors[error.field] = error.message;
+              setErrors(newErrors);
+            }
           }
           
         }
@@ -82,7 +89,7 @@ export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData,
       <div style={{ flexGrow: 1, overflowX: 'auto' }}>
         {
           operation.fields.map((field: OperationField) => (
-            <div style={{marginBottom: '15px', marginTop: '5px'}}>
+            <div style={{marginBottom: '15px', marginTop: '5px', display: 'flex', flexDirection: 'row'}}>
               {
                 getInputEntity(
                   {...{
@@ -97,7 +104,9 @@ export const CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData,
                     setShowPassword: setShowPassword,
                   }}
                 )
+                
               }
+              {field.information_text ? <InformationButton info={field.information_text} title={field.label || 'Информация'}/> : undefined}
             </div>
           ))
         }

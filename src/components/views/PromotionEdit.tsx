@@ -106,8 +106,8 @@ export const PromotionEdit: React.FC = () => {
   />
   <Box>
       <TabContext value={tabValue}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop: '10px', overflow: 'hidden'}}>
-          <TabList onChange={handleChangeTab}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop: '10px', }}>
+          <TabList onChange={handleChangeTab} sx={{overflowX: 'auto', width: {sm: '100dvw', xs: 'calc(100dvw - 20px)'}}}>
             <Tab label="Сводка" value="1" sx={TabStyle} disableRipple/>
             <Tab label="Партнеры" value="2" sx={TabStyle} disableRipple/>
             <Tab label="Лиды" value="3" sx={TabStyle} disableRipple/>

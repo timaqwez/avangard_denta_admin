@@ -7,6 +7,7 @@ import { AdminIcon } from './icons/AdminIcon';
 import { PromotionIcon } from './icons/PromotionIcon';
 import { InfoIcon } from './icons/InfoIcon';
 import { checkPermissions } from './functions/checkPermissions';
+import { AccountIcon } from './icons/AccountIcon';
 
 interface MenuItem {
   text: string,
@@ -29,6 +30,7 @@ const NavBar: React.FC = () => {
 
   const menuItems: MenuItem[][] = [
     [
+      { text: 'Добавить реферала', icon: <AccountIcon height={iconSize} width={iconSize}/>, path: '/referrals/add', model: 'referral', permissions: ['referrals'] },
       { text: 'Акции', icon: <PromotionIcon height={iconSize} width={iconSize}/>, path: '/promotions', model: 'promotion', permissions: ['promotions', 'partners', 'referrals'] },
     ],
     [
@@ -68,10 +70,11 @@ const NavBar: React.FC = () => {
                       </div>
                       <a style={{ fontWeight: '800' }}>{item.text}</a>
                     </ListItem>}
-                    {checkPermissions(item.permissions) && index < menuItems.length - 1 && <Divider variant='middle' sx={{margin: '5px 20px'}}/>}
+                    
                     </>
                   ))
                 }
+                {index < menuItems.length - 1 && <Divider variant='middle' sx={{margin: '5px 20px'}}/>}
               </React.Fragment>
             ))
           }

@@ -36,7 +36,7 @@ const Login: React.FC = () => {
         if (get_account_response.data.state === 'successful') {
           localStorage.setItem('account', JSON.stringify(get_account_response.data.account))
         }
-        navigate('/promotions');
+        navigate('/referrals/add');
         window.location.reload();
       } else {
         if (response.data.error?.code == 1000) {
@@ -84,6 +84,9 @@ const Login: React.FC = () => {
           {operations.create?.fields.map((field) => (getInputEntity(
             {...{
               item: form, 
+              setItem: setForm,
+              errors: errors,
+              setErrors: setErrors,
               field: field, 
               handleTextFieldChange: handleTextFieldChange, 
               error: errors[field.dataName], 

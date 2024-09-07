@@ -34,7 +34,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => 
       }
     } else {
       if (location.pathname == '/login' || location.pathname == '/register') {
-          navigate('/promotions');
+          navigate('/referrals/add');
       }
       Cookies.set('token', token);
       const response = await axios.get(API_URL + '/admin/accounts/get', {params: {token: token} } );

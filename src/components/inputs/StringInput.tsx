@@ -17,7 +17,7 @@ function StringInput(props: getInputEntityProps) {
         fullWidth
         required={props.field.required}
         error={Boolean(props.error)}
-        type={props.field.type == ColumnType.STRING ? 'text' : 'number'}
+        type={props.field.type == ColumnType.NUMBER ? 'number' : 'text'}
         helperText={props.error}
         margin='none'
         multiline={props.field.multiline}

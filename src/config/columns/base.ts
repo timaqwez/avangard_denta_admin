@@ -6,7 +6,8 @@ export enum ColumnType {
   OBJECT = 'object',
   DROPDOWN = 'dropdown',
   SEARCH_DROPDOWN = 'search_dropdown',
-  ARRAY = 'array'
+  ARRAY = 'array',
+  PHONE = 'phone',
 }
 
 export interface Column {

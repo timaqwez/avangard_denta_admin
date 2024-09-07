@@ -40,21 +40,21 @@ function SearchDropdownInput(props: getInputEntityProps) {
         props.setErrors({ ...props.errors, [dropdownData.dataName]: '' });
       }
 
-    if (props.dropdownData){
+      if (props.dropdownData){
         let thisDropdownData = props.dropdownData[props.field.dataName]
         return <Autocomplete
             multiple={props.field.multiple}
             options={thisDropdownData.data.map((option: any) => option)}
             renderInput={
                 (params) => <TextField
-                    error={Boolean(props.error)}
-                    helperText={props.error}
-                    {...params} 
-                    label={thisDropdownData.label || 'Ошибка'} 
-                    onChange={(value) => {
-                        handleSearchDropdownChange(value, thisDropdownData, props.field.multiple)
-                    }}
-                />
+                  error={Boolean(props.error)}
+                  helperText={props.error}
+                  {...params} 
+                  label={thisDropdownData.label || 'Ошибка'} 
+                  onChange={(value) => {
+                      handleSearchDropdownChange(value, thisDropdownData, props.field.multiple)
+                  }}
+              />
             }
             disableClearable
             disableCloseOnSelect 

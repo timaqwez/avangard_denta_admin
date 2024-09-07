@@ -2,14 +2,16 @@ import { Box } from "@mui/material";
 import { Title } from "../Title";
 import { DataGrid, gridClasses, GridColDef, GridRowId, GridRowSelectionModel } from '@mui/x-data-grid';
 import { ruRU } from '@mui/x-data-grid/locales';
-import { useEffect, useState } from "react";
+import { useState } from "react";
+// import { useEffect } from "react";
+
 import Cookies from 'js-cookie';
 import axios from "axios";
 import { Search } from "../Search";
 import { partnersOperations } from "../../config/operations/partners";
 import { Operations } from "../../config/operations/base";
 import { LoadingButton } from "@mui/lab";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { DeleteDialog } from "../DeleteDialog";
 
 
@@ -36,71 +38,71 @@ interface PartnersDataGridProps {
 
 export function PartnersDataGrid(props: PartnersDataGridProps) {
     const [data, setData] = useState(props.initialRows);
-    const [availablePartners, setAvailablePartners] = useState<{id: number, user_id: number, fullname: string, email: string, phone: string, is_partner: boolean}[]>([]);
+    // const [availablePartners, setAvailablePartners] = useState<{id: number, fullname: string, email: string, phone: string, is_partner: boolean}[]>([]);
     const [displayData, setDisplayData] = useState(props.initialRows);
     const [selectedRow, setSelectedRows] = useState<GridRowId[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [isOpenDialog, setIsOpenDialog] = useState(false);
     const [loading, setLoading] = useState('none');
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     
-    useEffect(() => {
-        async function fetchAvailablePartners() {
-            const token = Cookies.get('token');
-            try {
-                const response = await axios.get(API_URL + '/admin/clients/partners/list/get', {params: {token: token} })
-                let partners = response.data.partners
-                setAvailablePartners(partners)
-            } catch (error) {
-                console.error('An error occurred:', error);
-            }
-        }
+    // useEffect(() => {
+    //     async function fetchAvailablePartners() {
+    //         const token = Cookies.get('token');
+    //         try {
+    //             const response = await axios.get(API_URL + '/admin/clients/partners/list/get', {params: {token: token} })
+    //             let partners = response.data.partners
+    //             setAvailablePartners(partners)
+    //         } catch (error) {
+    //             console.error('An error occurred:', error);
+    //         }
+    //     }
 
-        fetchAvailablePartners()
-    }, [])
+    //     fetchAvailablePartners()
+    // }, [])
 
     function handleRowSelect(rows: GridRowSelectionModel) {
         setSelectedRows([...rows]);
     }
     
-    function getAvailablePartners() {
-        let partners = availablePartners
-        data.map(
-            (row) => {
-                partners = partners.filter((partner: any) => partner.fullname != row.fullname)
-            }
-        )
-        return partners
-    }
+    // function getAvailablePartners() {
+    //     let partners = availablePartners
+    //     data.map(
+    //         (row) => {
+    //             partners = partners.filter((partner: any) => partner.fullname != row.fullname)
+    //         }
+    //     )
+    //     return partners
+    // }
 
-    async function handleSave(item: any, token: string, setErrors: any) {
-        try {
-            const newErrors: { [key: string]: string } = {};
-            const selectedPartners = item.client_id;
-            item.client_id = null;
+    // async function handleSave(item: any, token: string, setErrors: any) {
+    //     try {
+    //         const newErrors: { [key: string]: string } = {};
+    //         const selectedPartners = item.client_id;
+    //         item.client_id = null;
             
-            for (const partner of selectedPartners) {
-                try {
-                    const response = await axios.post(`${API_URL}${operations.create?.path}`, { token, ...{ ...item, client_id: partner.value } });
-                    if (response.data.state !== 'successful') {
-                        if (response.data.error.code === 1003) {
-                            let error = operations.create?.errors?.find((error) => error.code === 1003);
-                            if (error) {
-                                newErrors[error.field] = error.message;
-                            }
-                        }
-                    }
-                } catch (innerError) {
-                    console.error('An error occurred during request:', innerError);
-                }
-            }
+    //         for (const partner of selectedPartners) {
+    //             try {
+    //                 const response = await axios.post(`${API_URL}${operations.create?.path}`, { token, ...{ ...item, client_id: partner.value } });
+    //                 if (response.data.state !== 'successful') {
+    //                     if (response.data.error.code === 1003) {
+    //                         let error = operations.create?.errors?.find((error) => error.code === 1003);
+    //                         if (error) {
+    //                             newErrors[error.field] = error.message;
+    //                         }
+    //                     }
+    //                 }
+    //             } catch (innerError) {
+    //                 console.error('An error occurred during request:', innerError);
+    //             }
+    //         }
     
-            setErrors(newErrors);
-        } catch (error) {
-            alert(error);
-        }
-        navigate(0)
-    }
+    //         setErrors(newErrors);
+    //     } catch (error) {
+    //         alert(error);
+    //     }
+    //     navigate(0)
+    // }
 
     const handleOpenDialog = () => {
         setIsOpenDialog(true);
@@ -156,21 +158,21 @@ export function PartnersDataGrid(props: PartnersDataGridProps) {
             {operations.create && <Title 
                 title={'Партнеры'} 
                 searchBar={<Search searchQuery={searchQuery} handleSearch={handleSearch} setSearchQuery={setSearchQuery}/>}
-                createProps={{
-                    operation: operations.create,
-                    fieldsValues: {promotion_id: props.promotion_id},
-                    dropdownData: {client_id:{
-                        dataName: 'client_id',
-                        label: 'Партнер',
-                        data: getAvailablePartners().map((partner) => (
-                            {
-                                displayName: `${partner.fullname} (${partner.phone})`,
-                                value: partner.id,
-                            }
-                        ))
-                    }},
-                    customHandleSave: handleSave,
-                }}
+                // createProps={{
+                //     operation: operations.create,
+                //     fieldsValues: {promotion_id: props.promotion_id},
+                //     dropdownData: {client_id:{
+                //         dataName: 'client_id',
+                //         label: 'Партнер',
+                //         data: getAvailablePartners().map((partner) => (
+                //             {
+                //                 displayName: `${partner.fullname} (${partner.phone})`,
+                //                 value: partner.id,
+                //             }
+                //         ))
+                //     }},
+                //     customHandleSave: handleSave,
+                // }}
             />}
             <Box>
                 <DataGrid

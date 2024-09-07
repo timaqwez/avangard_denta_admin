@@ -46,6 +46,12 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
             newErrors[error.field] = error.message;
             setErrors(newErrors);
           }
+        } else if (response.data.error.code === 1008) {
+          let error = operations.update?.errors?.find((error) => (error.code === 1008 && error.field === response.data.error.kwargs.variable))
+          if (error){
+            newErrors[error.field] = error.message;
+            setErrors(newErrors);
+          }
         }
         setLoading(`none`)
       }
@@ -100,6 +106,7 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
 
         {operations.submodel && submodelColumns && operations.submodel.create &&
         <Box sx={{marginBottom: '20px'}}>
+          <Divider sx={{marginBottom: '25px', marginTop: '15px'}}></Divider>
           <Title 
             title={operations.submodel.label}
             createProps={{

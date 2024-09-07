@@ -23,6 +23,15 @@ export const validateFields = (fields: OperationField[], item: any, setErrors: a
           newErrors[field.dataName] = `Длина: от ${min} до ${max}`;
         }
       }
+      if (field.type == ColumnType.PHONE && value) {
+        const regExp = new RegExp("^\\+?\\d{10,15}$");
+        console.log(regExp);
+        let phone = value.match(regExp);
+        console.log(phone);
+        if (!phone) {
+            newErrors[field.dataName] = 'Неверный формат номера телефона';
+        }        
+      }
     });
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

@@ -13,6 +13,7 @@ import { PromotionEdit } from './components/views/PromotionEdit';
 import { Header } from './components/Header';
 import { About } from './components/views/About';
 import { NotFound } from './components/views/NotFound';
+import { ReferralAdd } from './components/views/ReferralsAdd';
 
 const AppContent: React.FC = () => {
     const { token } = useAuth();
@@ -35,9 +36,10 @@ const AppContent: React.FC = () => {
                         <Route path="/login" Component={ Login } />
                         <Route path="/admins" Component={ Admins } />
                         <Route path="/promotions" Component={ Promotions } />
+                        <Route path='/referrals/add' Component={ ReferralAdd } />
                         <Route path='/edit/admin/:id' Component={ AdminEdit } />
                         <Route path='/edit/promotion/:id' Component={ PromotionEdit }  />
-                        <Route path="/" element={<Navigate to="/promotions" />}/>
+                        <Route path="/" element={<Navigate to="/referrals/add" />}/>
                     </Routes>
                 </Box>
             </Box>
