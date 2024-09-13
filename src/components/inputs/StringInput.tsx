@@ -3,8 +3,31 @@ import { getInputEntityProps } from "./Inputs";
 import { ColumnType } from "../../config/columns/base";
 
 function StringInput(props: getInputEntityProps) {
+  const formatPhoneNumber = (input: string) => {
+    const cleaned = input.replace(/\D/g, "");
+    const hasSevenPrefix = input.startsWith('+7');
+    const limited = hasSevenPrefix ? cleaned.substring(1, 11) : cleaned.substring(0, 10);
+  
+    const match = limited.match(/^(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})$/);
+    if (match) {
+      let formattedNumber = hasSevenPrefix ? "+7" : "+7";
+      if (match[1]) formattedNumber += ` (${match[1]}`;
+      if (match[2]) formattedNumber += `) ${match[2]}`;
+      if (match[3]) formattedNumber += `-${match[3]}`;
+      if (match[4]) formattedNumber += `-${match[4]}`;
+      return formattedNumber;
+    }
+    return input;
+  };
+  
+
     const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       props.setItem({ ...props.item, [e.target.name]: e.target.value });
+      props.setErrors({ ...props.errors, [e.target.name]: '' });
+    };
+
+    const handleTextFieldPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      props.setItem({ ...props.item, [e.target.name]: formatPhoneNumber(e.target.value) });
       props.setErrors({ ...props.errors, [e.target.name]: '' });
     };
 
@@ -13,7 +36,7 @@ function StringInput(props: getInputEntityProps) {
         name={props.field.dataName}
         label={props.field.label}
         value={props.item[props.field.dataName]}
-        onChange={handleTextFieldChange}
+        onChange={ props.field.type == ColumnType.PHONE ? handleTextFieldPhoneChange : handleTextFieldChange }
         fullWidth
         required={props.field.required}
         error={Boolean(props.error)}

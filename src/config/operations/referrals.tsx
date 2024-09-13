@@ -9,7 +9,7 @@ export const referralsOperations: Operations = {
     fields: [
       {label: 'Код партнера', dataName: 'code', type: ColumnType.STRING, required: true, length: {min: 0, max: 6}},
       {label: 'Имя реферала', dataName: 'name', type: ColumnType.STRING, required: true, length: {min: 0, max: 128}},
-      {label: 'Номер телефона', dataName: 'phone', type: ColumnType.PHONE, required: true, length: {min: 0, max: 16}},
+      {label: 'Номер телефона', dataName: 'phone', type: ColumnType.PHONE, required: true},
     ], 
     errors: [
       {field: 'phone', code: 1003, message: 'Рефералу уже был начислен бонус'}

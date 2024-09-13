@@ -24,10 +24,9 @@ export const validateFields = (fields: OperationField[], item: any, setErrors: a
         }
       }
       if (field.type == ColumnType.PHONE && value) {
+        const cleanedValue = value.replace(/\D/g, '');
         const regExp = new RegExp("^\\+?\\d{10,15}$");
-        console.log(regExp);
-        let phone = value.match(regExp);
-        console.log(phone);
+        let phone = cleanedValue.match(regExp);
         if (!phone) {
             newErrors[field.dataName] = 'Неверный формат номера телефона';
         }        
