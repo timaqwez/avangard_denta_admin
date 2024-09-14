@@ -5,12 +5,12 @@ import { ColumnType } from "../../config/columns/base";
 function StringInput(props: getInputEntityProps) {
   const formatPhoneNumber = (input: string) => {
     const cleaned = input.replace(/\D/g, "");
-    const hasSevenPrefix = input.startsWith('+7');
+    const hasSevenPrefix = input.startsWith('+7') || input.startsWith('7');
     const limited = hasSevenPrefix ? cleaned.substring(1, 11) : cleaned.substring(0, 10);
   
     const match = limited.match(/^(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})$/);
     if (match) {
-      let formattedNumber = hasSevenPrefix ? "+7" : "+7";
+      let formattedNumber = "+7";
       if (match[1]) formattedNumber += ` (${match[1]}`;
       if (match[2]) formattedNumber += `) ${match[2]}`;
       if (match[3]) formattedNumber += `-${match[3]}`;

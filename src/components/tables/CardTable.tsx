@@ -49,7 +49,6 @@ export const CardTable: React.FC<CardTableProps> = (
         <Paper key='table-paper' elevation={0} sx={{flexGrow: '1', maxHeight: '100dvh', overflow: 'auto'}}>
             <Box key='table-container' sx={fullHeight? {
                 minWidth: '200px',
-                maxWidth: {sm: 'calc(100dvw - 60px - 250px)', xs: '100dvw'},
                 minHeight: fullHeight ? {
                     sm: 'calc(100dvh - 100px - 10dvh - 85px)',
                     xs: 'calc(100dvh - 10dvh - 100px - 120px)',

@@ -47,7 +47,7 @@ export function AccountButton(props: AccountButtonProps) {
                     </IconButton>
                 </div>
                 <div>
-                    <IconButton key='header-account-button' sx={{color: 'white'}} onClick={handleOpen} disableRipple>
+                    <IconButton key='header-account-button' sx={{color: 'white', paddingRight: 0}} onClick={handleOpen} disableRipple>
                         <ArrowIcon key='header-account-button-icon' height={10} width={10}/>
                     </IconButton>
                     <Menu

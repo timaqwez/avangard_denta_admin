@@ -115,6 +115,9 @@ const NavBar: React.FC = () => {
             style={{
               color: location.pathname === item.path || location.pathname.includes(item.model) ? activeColor : inactiveColor,
               fontWeight: '600',
+              textAlign: 'center',
+              lineHeight: '1.2',
+              gap: '5px'
             }}
           />
           }</>
