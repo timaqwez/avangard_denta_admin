@@ -35,10 +35,11 @@ function StringInput(props: getInputEntityProps) {
         key={props.field.dataName}
         name={props.field.dataName}
         label={props.field.label}
-        value={props.item[props.field.dataName]}
+        value={ props.item[props.field.dataName] ? props.item[props.field.dataName] : props.field.type == ColumnType.PHONE ? "+7" : undefined}
         onChange={ props.field.type == ColumnType.PHONE ? handleTextFieldPhoneChange : handleTextFieldChange }
         fullWidth
         required={props.field.required}
+        placeholder={ props.field.type == ColumnType.PHONE ? "+7 (***) ***-**-**" : undefined}
         error={Boolean(props.error)}
         type={props.field.type == ColumnType.NUMBER ? 'number' : 'text'}
         helperText={props.error}
