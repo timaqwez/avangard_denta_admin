@@ -19,8 +19,7 @@ function StringInput(props: getInputEntityProps) {
     }
     return input;
   };
-  
-
+    
     const handleTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       props.setItem({ ...props.item, [e.target.name]: e.target.value });
       props.setErrors({ ...props.errors, [e.target.name]: '' });

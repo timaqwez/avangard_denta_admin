@@ -50,31 +50,32 @@ const NavBar: React.FC = () => {
         <div style={{ display: 'flex', flexDirection: 'column', padding: '10px 0' }}>
           {
             menuItems.map((itemsList, index) => (
-              <React.Fragment key={index}>
-                {
-                  itemsList.map((item: MenuItem) => (
-                    <>
-                    {checkPermissions(item.permissions) && <ListItem
+              <React.Fragment key={`itemsList-${index}`}>
+                {itemsList.map((item: MenuItem, inner_index) => (
+                  checkPermissions(item.permissions) && (
+                    <ListItem
                       component={Link}
                       to={item.path}
-                      key={item.text}
+                      key={`sidebar-menu-action-item-${inner_index}`}
                       sx={{
                         color: location.pathname === item.path || location.pathname.includes(item.model) ? activeColor : inactiveColor,
                         padding: '5px 20px',
                         transition: '0.3s',
-                        "&:hover": {color: location.pathname === item.path || location.pathname.includes(item.model) ? activeColor : '#7a7a7a'},
+                        "&:hover": {
+                          color: location.pathname === item.path || location.pathname.includes(item.model) ? activeColor : '#7a7a7a'
+                        },
                       }}
                     >
-                      <div style={{ marginRight: '15px', alignSelf: 'center', marginTop: '6px', marginLeft: '6px', marginBottom: '0' }} >
+                      <div style={{ marginRight: '15px', alignSelf: 'center', marginTop: '6px', marginLeft: '6px', marginBottom: '0' }}>
                         {item.icon}
                       </div>
-                      <a style={{ fontWeight: '800' }}>{item.text}</a>
-                    </ListItem>}
-                    
-                    </>
-                  ))
-                }
-                {index < menuItems.length - 1 && <Divider variant='middle' sx={{margin: '5px 20px'}}/>}
+                      <span style={{ fontWeight: '800' }}>{item.text}</span>
+                    </ListItem>
+                  )
+                ))}
+                {index < menuItems.length - 1 && (
+                  <Divider variant='middle' sx={{ margin: '5px 20px' }} key={`divider-${index}`} />
+                )}
               </React.Fragment>
             ))
           }
@@ -101,10 +102,10 @@ const NavBar: React.FC = () => {
         value={location.pathname}
         showLabels
       >
-        {menuItems.flat().map((item) => (
-          <>
-          {checkPermissions(item.permissions) && <BottomNavigationAction
-            key={item.path}
+        {menuItems.flat().map((item, index) => (
+          
+          checkPermissions(item.permissions) && <BottomNavigationAction
+            key={`bottom-navigation-action-${index}`}
             component={Link}
             to={item.path}
             label={item.text}
@@ -119,18 +120,15 @@ const NavBar: React.FC = () => {
               lineHeight: '1.2',
               gap: '5px'
             }}
-          />
-          }</>
+          /> 
         ))}
       </BottomNavigation>
     </Paper>
   );
   return (
-    <>
-      {isMobile ? mobileSidebar : desktopSidebar}
-    </>
+      isMobile ? mobileSidebar : desktopSidebar
   );
-};
+};  
 
 export default NavBar;
 

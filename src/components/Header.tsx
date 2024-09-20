@@ -10,7 +10,6 @@ import { Account } from "./hooks/AuthProvider"
 export const Header: React.FC = () => {
     const navigate = useNavigate()
     const [account, setAccount] = useState<Account>();
-
     useEffect(() => {
         let account_str = localStorage.getItem('account')
         if (account_str) {

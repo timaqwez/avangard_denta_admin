@@ -2,7 +2,6 @@ import { ColumnType } from '../../config/columns/base';
 import { OperationField } from '../../config/operations/base';
 
 export const validateFields = (fields: OperationField[], item: any, setErrors: any) => {
-    console.log(fields)
     const newErrors: { [key: string]: string } = {};
     fields.forEach((field: OperationField) => {
       const value = item[field.dataName];

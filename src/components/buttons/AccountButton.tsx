@@ -27,7 +27,7 @@ export function AccountButton(props: AccountButtonProps) {
 
     return (
         <Box sx={{display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '15px', userSelect: 'none',
-            cursor: 'pointer'}}>
+            cursor: 'pointer'}} key='header-account-button'>
             <Box 
                 key='header-account-username' 
                 sx={{
@@ -40,7 +40,7 @@ export function AccountButton(props: AccountButtonProps) {
             >
                 {props.username || 'unknown'}
             </Box>
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}} key='header-account-button-container'>
                 <div key='header-account-icon-container' style={{marginBottom: '0'}}>
                     <IconButton key='header-account-button' sx={{color: 'white', padding: 0}} onClick={handleOpen} disableRipple>
                         <AccountIcon key='header-account-icon' height={30} width={30}/>
@@ -75,8 +75,8 @@ export function AccountButton(props: AccountButtonProps) {
                             }
                         }}
                     >
-                        {props.handlers.map((handler) => (
-                            <MenuItem sx={{width: '100%', color: handler.id === 'delete' ? red[500] : 'primary.main', transition: '0.3s',fontWeight: '800',padding: '5px 20px', minHeight: '5px'}} onClick={() => handler.handler()}>
+                        {props.handlers.map((handler, index) => (
+                            <MenuItem key={`account-button-menu-item-${index}`} sx={{width: '100%', color: handler.id === 'delete' ? red[500] : 'primary.main', transition: '0.3s',fontWeight: '800',padding: '5px 20px', minHeight: '5px'}} onClick={() => handler.handler()}>
                                 <ListItemIcon sx={{color: handler.id === 'delete' ? red[300] : 'primary.main'}}>
                                     {handler.icon}
                                 </ListItemIcon>

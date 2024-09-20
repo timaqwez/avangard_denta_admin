@@ -123,7 +123,6 @@ export function PartnersDataGrid(props: PartnersDataGridProps) {
         let partners = props.initialRows
         for (const row_id of selectedRow) {
             try {
-                console.log('delete', row_id)
                 await axios.post(API_URL + operations.delete?.path, { token, id: row_id });
                 setData((prevData) => prevData.filter((i) => i.id !== row_id));
                 partners = partners.filter((i) => i.id !== row_id)

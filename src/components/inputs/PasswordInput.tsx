@@ -12,8 +12,8 @@ function PasswordInput(props: getInputEntityProps) {
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     };
-      return <FormControl sx={{ width: '100%' }} variant="outlined">
-      <InputLabel htmlFor="outlined" error={Boolean(props.error)}>{props.field.label} {props.field.required ? '*' : ''}</InputLabel>
+      return <FormControl sx={{ width: '100%' }} variant="outlined" key={`form-control-${props.field.dataName}`}>
+      <InputLabel key={`input-label-${props.field.dataName}`} htmlFor="outlined" error={Boolean(props.error)}>{props.field.label} {props.field.required ? '*' : ''}</InputLabel>
       <OutlinedInput
         id="outlined"
         autoComplete="disabled"
@@ -27,11 +27,11 @@ function PasswordInput(props: getInputEntityProps) {
         error={Boolean(props.error)}
         margin='none'
         endAdornment={
-          <>
-          <InputAdornment position="end">
+          <InputAdornment position="end" key={`input-adornment-${props.field.dataName}`}>
             <IconButton
               onClick={handleClickShowPassword}
               onMouseDown={handleMouseDownPassword}
+              key={`icon-button-${props.field.dataName}`}
               edge="end"
               sx={{
                 color: 'primary.main'
@@ -40,7 +40,6 @@ function PasswordInput(props: getInputEntityProps) {
               {props.showPassword ? <VisibilityOff /> : <Visibility />}
             </IconButton>
           </InputAdornment>
-          </>
         }
         label={props.field.label}
       />

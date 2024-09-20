@@ -36,7 +36,6 @@ export function ReferralAdd() {
         try {
             const token = Cookies.get('token');
             const response = await axios.post(API_URL + operations.create?.path, { token, ...item });
-            console.log(response.data)
             if (response.data.state === 'successful') {
                 const data = response.data
                 setItem(
@@ -79,8 +78,8 @@ export function ReferralAdd() {
         <div style={{ display: 'block', marginTop: '10px' }}>
             <div style={{ flexGrow: 1, overflowX: 'auto' }}>
                 { operations.create &&
-                operations.create.fields.map((field: OperationField) => (
-                    <div style={{marginBottom: '15px', marginTop: '5px'}}>
+                operations.create.fields.map((field: OperationField, index) => (
+                    <div style={{marginBottom: '15px', marginTop: '5px'}} key={`referral-add-form-field-${index}`}>
                     {
                         getInputEntity(
                         {...{

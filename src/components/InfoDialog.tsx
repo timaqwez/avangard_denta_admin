@@ -20,20 +20,20 @@ export function InfoDialog(props: InfoDialogProps) {
                         borderRadius: '20px'
                     }
                 }}
+                key='info-dialog'
             >
-                <DialogTitle>
+                <DialogTitle key='info-dialog-title'>
                     {props.title}
                 </DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        <Box sx={{display: 'flex', flexDirection: 'column'}}>
+                <DialogContent key='info-dialog-content'>
+                    <DialogContentText key='info-dialog-content-text'>
+                        <Box sx={{display: 'flex', flexDirection: 'column'}} key='info-dialog-text'>
                             {
                                 props.info.split('\n').map((line, index) => (
-                                    <>
+                                    <Box key={`info-dialog-content-text-line-${index}`}>
                                         {line != '' && line}
-                                        {console.log(props.info.split('\n'))}
                                         {index < props.info.split(/\r\n|\r|\n/g).length-1 && line != '' && <br/>}
-                                    </>
+                                    </Box>
                                 ))
                             }
                         </Box>
@@ -44,8 +44,10 @@ export function InfoDialog(props: InfoDialogProps) {
                         paddingBottom: '20px',
                         paddingRight: '20px'
                     }}
+                    key='info-dialog-actions'
                 >
                     <Button 
+                        key='info-dialog-close-button'
                         onClick={props.handleCloseDialog}
                         variant="text" 
                         style={{ 

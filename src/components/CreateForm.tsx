@@ -88,8 +88,8 @@ export const  CreateForm: React.FC<CreateFormProps> = ({ operation, dropdownData
     <div style={{ display: 'block', marginTop: '10px' }}>
       <div style={{ flexGrow: 1, overflowX: 'auto' }}>
         {
-          operation.fields.map((field: OperationField) => (
-            <div style={{marginBottom: '15px', marginTop: '5px', display: 'flex', flexDirection: 'row'}}>
+          operation.fields.map((field: OperationField, index: number) => (
+            <div style={{marginBottom: '15px', marginTop: '5px', display: 'flex', flexDirection: 'row'}} key={`form-field-${index}`}>
               {
                 getInputEntity(
                   {...{

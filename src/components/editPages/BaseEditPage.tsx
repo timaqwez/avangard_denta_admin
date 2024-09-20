@@ -30,7 +30,6 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
   const navigate = useNavigate();
 
   const handleSave = async (dataName: string) => {
-    console.log(item)
     if (operations.update){
       if (!validateFields(operations.update?.fields, item, setErrors)) return false;
     }
@@ -60,7 +59,8 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
         setIsEditing('none')
       }
     } catch (error) {
-      
+      setLoading(`none`)
+      setIsEditing('none')
     }
   };
 
@@ -80,8 +80,7 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
   return (
     <div style={{ display: 'block', maxWidth: 'calc(100dvw - 20px)'}}>
         {operations.update?.fields.map((field, index) => (
-          <>
-          <Box>
+          <Box key={`edit-field=${index}`}>
           <EditField
             props={{
               item: item,
@@ -99,9 +98,8 @@ const EditForm: React.FC<EditPageProps> = ({ item, setItem, operations, dropdown
             setIsEditing={setIsEditing}
             loading={loading}
           />
-          </Box>
           {!field.noDisplay && operations.update?.fields && index < operations.update?.fields.length - 1 && <Divider variant='fullWidth' sx={{margin: '15px 0'}}></Divider>}
-          </>
+          </Box>
         ))}
 
         {operations.submodel && submodelColumns && operations.submodel.create &&
